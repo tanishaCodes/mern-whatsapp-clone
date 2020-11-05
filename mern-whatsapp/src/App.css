@@ -1,0 +1,17 @@
+/* Will center items horizontally and vertically */
+.app {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    background-color: #232224;
+}
+
+.app__body {
+    display: flex;
+    background-color: #232224;
+    margin-top: -50px;
+    height: 90vh;
+    width: 90vw;
+    box-shadow: -1px 4px 30px -6px #e21083;
+}
+
