@@ -16,10 +16,10 @@ const port = process.env.PORT || 8080;
 
 // makes a RealTime use of MongoDB
 const pusher = new Pusher({
-    appId: '1094231',
-    key: '5a408a6fb35686c708d0',
-    secret: '476d3886be90cea47bab',
-    cluster: 'us2',
+    appId: process.env.REACT_APP_PUSHER_ID,
+    key: process.env.REACT_APP_PUSHER_KEY,
+    secret: process.env.REACT_APP_PUSHER_SECRET,
+    cluster: process.env.REACT_APP_PUSHER_CLUSTER,
     useTLS: true,
   });
 

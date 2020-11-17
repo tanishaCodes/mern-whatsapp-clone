@@ -12,7 +12,10 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "build": "cd mern-whatsapp && npm run build",
+    "install-mern-whatsapp": "cd mern-whatsapp && npm install",
+    "heroku-postbuild": "npm run install-mern-whatsapp && npm run build",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "Tanisha Howell",
