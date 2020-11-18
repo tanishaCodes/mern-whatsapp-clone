@@ -15,8 +15,8 @@
     "nodemon": "^2.0.6"
   },
   "engines": {
-    "node": ">=0.10.3 <0.12",
-    "npm": "~1.0.20"
+    "node": "^12.14.1",
+    "npm": "^6.13.4"
   },
   "scripts": {
     "devStart": "nodemon server.js",
