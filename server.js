@@ -94,8 +94,11 @@ app.post('/messages/new', (req, res) => {
     })
 })
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('mern-whatsapp/build'));
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static("client/build"));
+	app.get("*", (request, response) => {
+		response.sendFile(path.join(__dirname, "mern-whatsapp/build", "index.html"));
+	});
 }
 
 // listen
