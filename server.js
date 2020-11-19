@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -12,7 +10,7 @@ const cors = require('cors');
 
 // app config
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 4000;
 
 // makes a RealTime use of MongoDB
 const pusher = new Pusher({
@@ -102,6 +100,6 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // listen
-app.listen(port, () => 
+app.listen(process.env.PORT, () => 
     console.log(`Listening on localhost:${port}`)
     );
