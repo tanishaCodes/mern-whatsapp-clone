@@ -67,9 +67,9 @@ db.once('open', () => {
 });
 
 // api routes
-// app.get('/', (req, res) => 
-//     res.status(200).send('hello world!')
-//     );
+app.get('/', (req, res) => 
+    res.status(200).send('hello world!')
+    );
 
 // set to false in Postman for testing
 app.get('/messages/sync', (req, res) => {
