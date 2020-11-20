@@ -1,16 +1,19 @@
+require('dotenv').config();
+
+const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const { default: dbMessages } = require('./dbMessages');
+const { default: dbMessages } = require('./mern-whatsapp/dbMessages');
 
-const Messages = require('./dbMessages');
+const Messages = require('./mern-whatsapp/dbMessages');
 const Pusher = require('pusher');
 
 const cors = require('cors');
 
 // app config
 const app = express();
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
 // makes a RealTime use of MongoDB
 const pusher = new Pusher({
@@ -93,7 +96,7 @@ app.post('/messages/new', (req, res) => {
 })
 
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static("client/build"));
+	app.use(express.static("mern-whatsapp/build"));
 	app.get("*", (request, response) => {
 		response.sendFile(path.join(__dirname, "mern-whatsapp/build", "index.html"));
 	});
@@ -101,5 +104,5 @@ if (process.env.NODE_ENV === "production") {
 
 // listen
 app.listen(process.env.PORT, () => 
-    console.log(`Listening on localhost:${port}`)
-    );
+    console.log(`Listening on localhost:${PORT}`)
+);
