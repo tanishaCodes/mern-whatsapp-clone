@@ -13,7 +13,7 @@ const cors = require('cors');
 
 // app config
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 // makes a RealTime use of MongoDB
 const pusher = new Pusher({
@@ -29,6 +29,13 @@ app.use(express.json());
 
 // CORS library instead of defining headers
 app.use(cors());
+
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static("./mern-whatsapp/build"));
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "./mern-whatsapp/build", "index.html"));
+	});
+}
 
 // MongoDB config
 const connection_url = process.env.CONNECTION_URL;
@@ -66,10 +73,10 @@ db.once('open', () => {
     });
 });
 
-// api routes
-app.get('/', (req, res) => 
-    res.status(200).send('hello world!')
-    );
+// api routes (remove or comment out before sending to production)
+// app.get('/', (req, res) => 
+//     res.status(200).send('hello world!')
+//     );
 
 // set to false in Postman for testing
 app.get('/messages/sync', (req, res) => {
@@ -94,13 +101,6 @@ app.post('/messages/new', (req, res) => {
         }
     })
 })
-
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static("mern-whatsapp/build"));
-	app.get("*", (request, response) => {
-		response.sendFile(path.join(__dirname, "mern-whatsapp/build", "index.html"));
-	});
-}
 
 // listen
 app.listen(process.env.PORT, () => 
