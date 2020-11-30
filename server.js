@@ -38,9 +38,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // MongoDB config
-const connection_url = process.env.CONNECTION_URL;
 
-mongoose.connect(process.env.MONGO_URI || connection_url, {
+mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/whatsappdb", {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
