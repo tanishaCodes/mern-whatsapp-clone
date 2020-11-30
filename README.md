@@ -2,7 +2,7 @@
 
 This is a partial clone of the popular app, WhatsApp! :phone:
 
-<img src="https://github.com/tanishaCodes/mern-whatsapp-clone/blob/0fe65907acb5623cbfd57ade73b5096224e1434b/mern-whatsapp%2Fpublic%2Fpink_whatsapp.png" alt="Screenshot of WhatsApp Clone" width="700">
+<img src="https://github.com/tanishaCodes/mern-whatsapp-clone/blob/2fac4cceb813e8e20079eb882092a704be89ea5a/mern-whatsapp%2Fsrc%2Fassets%2FWhatsappCloneScreenshot.jpg" alt="Screenshot of WhatsApp Clone" width="700">
 
 https://https://mern-app-whatsapp.herokuapp.com/
 
