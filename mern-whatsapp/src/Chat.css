@@ -25,6 +25,12 @@
     color:  #e21083;
 }
 
+.chat__headerRight {
+    display: flex;
+    justify-content: space-between;
+    min-width: 100px;
+}
+
 
 .chat__body {
     flex: 1;

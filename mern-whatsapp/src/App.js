@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import './Chat.css';
 
 import Sidebar from './Sidebar';
 import Chat from './Chat';
+import Login from './Login'
 
 import Pusher from 'pusher-js';
 import axios from './axios';
 
 function App() {
-  const [messages, setMessages] = useState([]);
+  const [{ user }, dispatch] = useStateValue();
 
   // Axios for the fetch
   useEffect(() => {
@@ -40,10 +42,26 @@ function App() {
 
   return (
     <div className="app">
+
+      {!user ? (
+        <Login />
+      ): (
+
       <div className='app__body'>
-      <Sidebar />
-      <Chat messages={messages} />
+      <Router>
+        <Sidebar /> 
+
+        <Switch>
+          <Route path='/rooms/:roomId'>
+            <Chat messages={messages} />
+          </Route>
+          <Route path='/'>
+            <Chat />
+          </Route>
+        </Switch>
+      </Router> 
       </div>
+      )}
     </div>
   );
 }

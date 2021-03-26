@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { AttachFile, MoreVert, SearchOutlined } from '@material-ui/icons';
 import { Avatar, IconButton } from '@material-ui/core';
@@ -11,9 +12,27 @@ import moment from 'moment';
 
 import './Chat.css';
 
+import db from './firebase';
+
 
 function Chat({ messages }) {
     const [input, setInput] = useState('');
+    const [seed, setSeed] = useState('');
+    const { roomId } = useParams();
+    const [roomName, setRoomName] = useState('');
+
+    // changes the room name in the  chat header to the respective room
+    useEffect(() => {
+        if (roomId) {
+            db.collection('rooms').doc(roomId).onSnapshot => (
+                setRoomName(snapshot.data().name));
+        }
+    }, [roomId]);
+
+    // randomize avatars
+    useEffect(() => {
+        setSeed(Math.floor(Math.random() * 5000));
+     }, [roomId]);
 
     const sendMessage =  async (e) => {
         e.preventDefault();
@@ -31,10 +50,10 @@ function Chat({ messages }) {
     return (
         <div className='chat'>
             <div className='chat__header'>
-                <Avatar />
+                <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
 
                 <div className='chat__headerInfo'>
-                    <h3>Room Name</h3>
+                    <h3>{roomName}</h3>
                     <p>Last seen at...</p>
                 </div>
 

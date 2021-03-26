@@ -10,6 +10,7 @@
     "heroku": "^7.47.3",
     "mongoose": "^5.10.11",
     "pusher": "^4.0.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0"
   },
   "devDependencies": {
