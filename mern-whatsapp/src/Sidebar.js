@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useStateValue } from './StateProvider';
 import './Sidebar.css';
 
 import { Avatar, IconButton } from '@material-ui/core';
@@ -13,6 +14,7 @@ import db from './firebase';
 
 function Sidebar() {
     const [rooms, setRooms] = useState([]);
+    const [{ user }, dispatch] = useStateValue();
 
     useEffect(() => {
         const unsubscribe = db.collection('rooms').onSnapshot((snapshot) => 
@@ -23,7 +25,7 @@ function Sidebar() {
                 }))
             )
         );
-
+        // cleanup function 
         return () => {
             unsubscribe();
         }
@@ -32,7 +34,7 @@ function Sidebar() {
     return (
         <div className='sidebar'>
            <div className='sidebar__header'>
-               <Avatar src='https://avatars2.githubusercontent.com/u/67667273?s=460&u=2e28c4aee4dbee2c6404aeb7009aa9832bb0350e&v=4' />
+               <Avatar src={user?.photoURL} />
             <div className='sidebar__headerRight'>
                 <IconButton>
                    <DonutLargeIcon /> 
@@ -59,7 +61,6 @@ function Sidebar() {
                 <SidebarChat key={room.id} id={room.id} name={room.data.name} />
                 ))}
             </div>
-
         </div>
     );
 }

@@ -4,9 +4,9 @@ const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const { default: dbMessages } = require('./mern-whatsapp/dbMessages');
+const { default: dbMessages } = require('./dbMessages');
 
-const Messages = require('./mern-whatsapp/dbMessages');
+const Messages = require('./dbMessages');
 const Pusher = require('pusher');
 
 const cors = require('cors');
@@ -30,6 +30,7 @@ app.use(express.json());
 // CORS library instead of defining headers
 app.use(cors());
 
+// producation mode
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("./mern-whatsapp/build"));
 	app.get("*", (req, res) => {
@@ -38,7 +39,6 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // MongoDB config
-
 mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/whatsappdb", {
     useCreateIndex: true,
     useNewUrlParser: true,
@@ -94,9 +94,9 @@ app.post('/messages/new', (req, res) => {
 
     Messages.create(dbMessages, (err, data) => {
         if (err) {
-            res.status(500).send(err)
+            res.status(500).send(err) // internal server error
         } else {
-            res.status(201).send(`new message created: \n ${data}`)
+            res.status(201).send(`new message created: \n ${data}`) // message created okay
         }
     })
 })

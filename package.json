@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Whatsapp Clone",
   "main": "server.js",
+  "type": "module",
+  
   "dependencies": {
     "concurrently": "^5.3.0",
     "cors": "^2.8.5",

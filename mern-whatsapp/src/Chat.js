@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useStateValue } from ',/StateProvider';
 
 import { AttachFile, MoreVert, SearchOutlined } from '@material-ui/icons';
 import { Avatar, IconButton } from '@material-ui/core';
@@ -7,12 +8,10 @@ import { Avatar, IconButton } from '@material-ui/core';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import MicIcon from '@material-ui/icons/Mic';
 
-import axios from './axios';
-import moment from 'moment';
-
 import './Chat.css';
 
 import db from './firebase';
+import firebase from 'firebase';
 
 
 function Chat({ messages }) {
@@ -20,12 +19,26 @@ function Chat({ messages }) {
     const [seed, setSeed] = useState('');
     const { roomId } = useParams();
     const [roomName, setRoomName] = useState('');
+    const [messages, setMessages] = useState({});
+    const [{ user }, dispatch] = useStateValue;
 
     // changes the room name in the  chat header to the respective room
     useEffect(() => {
         if (roomId) {
-            db.collection('rooms').doc(roomId).onSnapshot => (
-                setRoomName(snapshot.data().name));
+            db
+                .collection('rooms')
+                .doc(roomId)
+                .onSnapshot((snapshot) => 
+                    setRoomName(snapshot.data().name));
+
+            db
+                .collection('rooms')
+                .doc(roomId)
+                .collection('messages').orderBy('timestamp', 'asc')
+                .onSanpshot(snapshot => {
+                    setMessages(snapshot.docs.map(doc => 
+                        doc.data()))
+            });
         }
     }, [roomId]);
 
@@ -34,15 +47,20 @@ function Chat({ messages }) {
         setSeed(Math.floor(Math.random() * 5000));
      }, [roomId]);
 
+    // prevents refresh with onClick for sent messages
     const sendMessage =  async (e) => {
         e.preventDefault();
+    };
 
-        await axios.post("/messages/new", {
-            message: input,
-            name: "DEMO APP",
-            timestamp: moment().format('MMMM Do YYYY, h:mm a'),
-            received: false,
-        });
+        db
+            .collection('rooms')
+            .doc(roomId)
+            .collection('messages')
+            .add({
+                message: input,
+                name: user.displayName, // coming from Google auth
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
 
         setInput('');
     };
@@ -54,7 +72,12 @@ function Chat({ messages }) {
 
                 <div className='chat__headerInfo'>
                     <h3>{roomName}</h3>
-                    <p>Last seen at...</p>
+                    <p>
+                        Last seen{''}
+                        {new Date(
+                            messages[messages.length - 1]?.timestamp?.toDate()
+                        ).toUTCString()}
+                    </p>
                 </div>
 
                 <div className='chat__headerRight'>
@@ -72,11 +95,11 @@ function Chat({ messages }) {
 
             <div className='chat__body'>
                 {messages.map((message) => (
-                    <p className={`chat__message ${message.received && 'chat__receiver'}`}>
+                    <p className={`chat__message ${message.name === user.displayName && 'chat__receiver'}`}>
                         <span className='chat__name'>{message.name}</span>
                             {message.message}
                         <span className='chat__timestamp'>
-                        {message.timestamp}</span>
+                        {new Date(message.timestamp?.toDate()).toUTCString()}</span>
                     </p>
                 ))}
             </div>

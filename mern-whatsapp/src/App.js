@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useStateValue } from './StateProvider';
+
 import './App.css';
 import './Chat.css';
 
@@ -12,6 +14,7 @@ import axios from './axios';
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
+  const [messages, setMessages] = useState([]);
 
   // Axios for the fetch
   useEffect(() => {
@@ -53,10 +56,10 @@ function App() {
 
         <Switch>
           <Route path='/rooms/:roomId'>
-            <Chat messages={messages} />
+            <Chat />
           </Route>
           <Route path='/'>
-            <Chat />
+            <Chat messages={messages} />
           </Route>
         </Switch>
       </Router> 

@@ -1,5 +1,7 @@
 import React from 'react'
 import { Button } from '@material-ui/core';
+import { actionTypes } from './reducer';
+import { useStateValue } from './StateProvider';
 
 import './Login.css';
 
