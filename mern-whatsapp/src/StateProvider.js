@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
+
 // creates the data layer where the data lives
 export const StateContext = createContext();
 
