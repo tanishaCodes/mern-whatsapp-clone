@@ -19,22 +19,23 @@
 .chat__headerInfo > h3 {
     margin-bottom: 3px;
     font-weight: 500;
+    color:#ffffff;
 }
 
 .chat__headerInfo > p {
-    color:  #e21083;
+    color: #808080;
 }
 
 .chat__headerRight {
     display: flex;
     justify-content: space-between;
     min-width: 100px;
+    color:#808080;
 }
-
 
 .chat__body {
     flex: 1;
-    background-image: url("https://64.media.tumblr.com/5f1a1a6342d009bddfd432b272fc2480/tumblr_pe690xUIDf1r6hvsz_1280.jpg");
+    background-image: url("https://wallpapercave.com/wp/wp7130410.jpg");
     background-repeat: repeat;
     background-position: center;
     padding: 30px;
@@ -53,7 +54,7 @@
 
 .chat__receiver {
     margin-left: auto;
-    background-color: #3caff1;
+    background-color: #4ddb8f;
 }
 
 .chat__timestamp {
@@ -73,7 +74,7 @@
     justify-content: space-between;
     align-items: center;
     height: 62px;
-    border-top: 1px solid lightgray;
+    border-top: 1px solid #d3d3d3;
 }
 
 .chat__footer > form {
@@ -95,5 +96,5 @@
 
 .chat__footer > .MuiSvgIcon-root {
     padding: 10px;
-    color: gray;
+    color: #808080;
 }
