@@ -13,6 +13,7 @@ import Pusher from 'pusher-js';
 import axios from './axios';
 
 function App() {
+  // const [user, setUser] = useState(null);
   const [{ user }, dispatch] = useStateValue();
   const [messages, setMessages] = useState([]);
 
@@ -45,7 +46,6 @@ function App() {
 
   return (
     <div className="app">
-
       {!user ? (
         <Login />
       ): (

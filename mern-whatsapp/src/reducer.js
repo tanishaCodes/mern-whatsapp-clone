@@ -3,7 +3,7 @@ export const initialState = {
     user: null,
 };
 
-// pushes user into the data layer when they enter their creditials
+// pushes user into the data layer when they enter their credentials
 export const actionTypes = {
     SET_USER: 'SET_USER',
 };

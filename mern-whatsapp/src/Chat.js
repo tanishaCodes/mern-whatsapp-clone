@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useStateValue } from ',/StateProvider';
+import { useStateValue } from './StateProvider';
 
 import { AttachFile, MoreVert, SearchOutlined } from '@material-ui/icons';
 import { Avatar, IconButton } from '@material-ui/core';
@@ -12,33 +12,33 @@ import './Chat.css';
 
 import db from './firebase';
 import firebase from 'firebase';
+import axios from './axios';
 
 
-function Chat({ messages }) {
+function Chat() {
     const [input, setInput] = useState('');
     const [seed, setSeed] = useState('');
     const { roomId } = useParams();
     const [roomName, setRoomName] = useState('');
-    const [messages, setMessages] = useState({});
-    const [{ user }, dispatch] = useStateValue;
+    const [messages, setMessages] = useState([]);
+    const [{ user }, dispatch] = useStateValue();
 
     // changes the room name in the  chat header to the respective room
     useEffect(() => {
         if (roomId) {
-            db
-                .collection('rooms')
+            db.collection('rooms')
                 .doc(roomId)
                 .onSnapshot((snapshot) => 
                     setRoomName(snapshot.data().name));
 
-            db
-                .collection('rooms')
+            db.collection('rooms')
                 .doc(roomId)
-                .collection('messages').orderBy('timestamp', 'asc')
-                .onSanpshot(snapshot => {
-                    setMessages(snapshot.docs.map(doc => 
+                .collection('messages')
+                .orderBy('timestamp', 'asc')
+                .onSnapshot((snapshot) => 
+                    setMessages(snapshot.docs.map((doc) => 
                         doc.data()))
-            });
+                );
         }
     }, [roomId]);
 
@@ -50,20 +50,27 @@ function Chat({ messages }) {
     // prevents refresh with onClick for sent messages
     const sendMessage =  async (e) => {
         e.preventDefault();
-    };
 
-        db
-            .collection('rooms')
+        db.collection('rooms')
             .doc(roomId)
-            .collection('messages')
-            .add({
+            .collection('messages').add({
                 message: input,
                 name: user.displayName, // coming from Google auth
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
 
         setInput('');
-    };
+        // };
+
+     await axios.post('/messages/new', {
+        message: input,
+        name: user.displayName,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        received: false,
+        });
+
+        setInput('');
+        };
 
     return (
         <div className='chat'>
@@ -73,7 +80,7 @@ function Chat({ messages }) {
                 <div className='chat__headerInfo'>
                     <h3>{roomName}</h3>
                     <p>
-                        Last seen{''}
+                        Last seen {''}
                         {new Date(
                             messages[messages.length - 1]?.timestamp?.toDate()
                         ).toUTCString()}
@@ -94,7 +101,7 @@ function Chat({ messages }) {
             </div>
 
             <div className='chat__body'>
-                {messages.map((message) => (
+                {messages.map(message => (
                     <p className={`chat__message ${message.name === user.displayName && 'chat__receiver'}`}>
                         <span className='chat__name'>{message.name}</span>
                             {message.message}

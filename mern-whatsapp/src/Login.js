@@ -5,7 +5,7 @@ import { useStateValue } from './StateProvider';
 
 import './Login.css';
 
-import { auth, provider } from './firebase'
+import { auth, provider } from './firebase';
 
 
 function Login() {
@@ -20,21 +20,21 @@ function Login() {
                     user: result.user,
                 });
             })
-            .catch((error)=> alert(error.message));
+            .catch((error) => alert(error.message));
     };
 
     return (
         <div className='login'>
             <div className='login__container'>
                 <img
-                    src='' // whatsapp logo
-                    alt=''
+                    src='https://www.freepnglogos.com/uploads/whatsapp-logo-light-green-png-0.png' // whatsapp logo
+                    alt='whatsapp logo'
                 />
                 <div className='login__text'>
-                    <h1>Sign in to WhatsApp </h1>
+                    <h1>Sign in to WhatsApp</h1>
                 </div>
                 <Button onClick={signIn}>
-                    Sign In With Google
+                    Login with Google
                 </Button>
             </div>
         </div>
