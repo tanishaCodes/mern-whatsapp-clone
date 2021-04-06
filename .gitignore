@@ -1,12 +1,3 @@
-.firebase
-.github
-.vscode
-.build
-/functions
-/y
-.firebaserc
-.firebase.json
-
 /node_modules
 /.env
 .DS_Store
