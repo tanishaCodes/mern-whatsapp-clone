@@ -30,13 +30,12 @@ jobs:
     - run: npm test
     - name: Archive build
       uses: actions/upload-artifact@v2
-      
       with:
         name: build
         path: build
     
   deploy:
-    name: deploy
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -46,8 +45,8 @@ jobs:
         with:
           name: build
           path: build
-      - name: deploy to Firebase
-        uses: W9JDS/firebase-action@main
+      - name: Deploy to Firebase
+        uses: W9jds/firebase-action@main
         with:
           args: deploy --only hosting
         env:
