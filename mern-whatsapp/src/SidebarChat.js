@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import { Avatar } from '@material-ui/core';
+
 import './SidebarChat.css';
 
 import db from './firebase';
